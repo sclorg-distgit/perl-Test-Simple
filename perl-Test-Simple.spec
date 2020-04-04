@@ -10,7 +10,7 @@ Name:           %{?scl_prefix}perl-Test-Simple
 Summary:        Basic utilities for writing tests
 Epoch:          3
 Version:        1.302170
-Release:        2%{?dist}
+Release:        3%{?dist}
 # CC0: lib/ok.pm
 # Public Domain: lib/Test/Tutorial.pod
 # GPL+ or Artistic: the rest of the distribution
@@ -180,6 +180,9 @@ This package is the CPAN component of the dual-lifed core package Test-Simple.
 %{_mandir}/man3/Test2::Util::Trace.3*
 
 %changelog
+* Wed Jan 08 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3:1.302170-3
+- Re-rebuild of bootstrapped packages
+
 * Fri Dec 20 2019 Jitka Plesnikova <jplesnik@redhat.com> - 3:1.302170-2
 - SCL
 
