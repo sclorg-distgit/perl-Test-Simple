@@ -10,7 +10,7 @@ Name:           %{?scl_prefix}perl-Test-Simple
 Summary:        Basic utilities for writing tests
 Epoch:          3
 Version:        1.302170
-Release:        3%{?dist}
+Release:        4%{?dist}
 # CC0: lib/ok.pm
 # Public Domain: lib/Test/Tutorial.pod
 # GPL+ or Artistic: the rest of the distribution
@@ -20,14 +20,15 @@ Source0:        https://cpan.metacpan.org/modules/by-module/Test/Test-Simple-%{v
 BuildArch:      noarch
 # Module Build
 BuildRequires:  coreutils
+BuildRequires:  findutils
 BuildRequires:  make
 BuildRequires:  %{?scl_prefix}perl-generators
 BuildRequires:  %{?scl_prefix}perl-interpreter
+BuildRequires:  %{?scl_prefix}perl(Config)
 BuildRequires:  %{?scl_prefix}perl(ExtUtils::MakeMaker) >= 6.76
 # Module Runtime
 BuildRequires:  %{?scl_prefix}perl(base)
 BuildRequires:  %{?scl_prefix}perl(Carp)
-BuildRequires:  %{?scl_prefix}perl(Config)
 BuildRequires:  %{?scl_prefix}perl(Data::Dumper)
 BuildRequires:  %{?scl_prefix}perl(Exporter)
 BuildRequires:  %{?scl_prefix}perl(File::Spec)
@@ -85,6 +86,10 @@ This package is the CPAN component of the dual-lifed core package Test-Simple.
 
 %prep
 %setup -q -n Test-Simple-%{version}
+%{?scl:scl enable %{scl} - <<'EOC'}
+find t -type f \
+    -exec perl -MConfig -i -pe 's{^#!/usr/bin/(?:env )?perl}{$Config{startperl}}' {} +
+%{?scl:EOC}
 
 %build
 %{?scl:scl enable %{scl} '}perl Makefile.PL INSTALLDIRS=vendor NO_PERLLOCAL=1 NO_PACKLIST=1 && %{make_build}%{?scl:'}
@@ -180,6 +185,9 @@ This package is the CPAN component of the dual-lifed core package Test-Simple.
 %{_mandir}/man3/Test2::Util::Trace.3*
 
 %changelog
+* Tue Mar 17 2020 Petr Pisar <ppisar@redhat.com> - 3:1.302170-4
+- Normalize shebangs in the tests (bug #1813340)
+
 * Wed Jan 08 2020 Jitka Plesnikova <jplesnik@redhat.com> - 3:1.302170-3
 - Re-rebuild of bootstrapped packages
 
